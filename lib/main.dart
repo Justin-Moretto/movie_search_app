@@ -171,7 +171,13 @@ class _ResultsWidget extends StatelessWidget {
         }
       },
       child: BlocSelector<MovieSearchBloc, MovieSearchState, MovieSearchState>(
-        selector: (state) => state,
+        selector: (state) {
+          // If showing movie details, show last search results instead
+          if (state is MovieDetailsSuccess || state is MovieDetailsLoading || state is MovieDetailsError) {
+            return context.read<MovieSearchBloc>().lastSearchState ?? state;
+          }
+          return state;
+        },
         builder: (context, state) {
           if (state is MovieSearchInitial) {
             return const Center(

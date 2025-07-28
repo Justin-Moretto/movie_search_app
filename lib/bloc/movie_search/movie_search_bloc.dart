@@ -6,6 +6,7 @@ import 'movie_search_state.dart';
 
 class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
   final OMDbService _omdbService;
+  MovieSearchState? _lastSearchState;
 
   MovieSearchBloc({required OMDbService omdbService})
     : _omdbService = omdbService,
@@ -15,6 +16,8 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
     on<FetchMovieDetails>(_onFetchMovieDetails);
   }
 
+  MovieSearchState? get lastSearchState => _lastSearchState;
+
   Future<void> _onMovieSearchSubmitted(
     MovieSearchSubmitted event,
     Emitter<MovieSearchState> emit,
@@ -23,6 +26,7 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
 
     if (query.isEmpty) {
       emit(const MovieSearchInitial());
+      _lastSearchState = null;
       return;
     }
 
@@ -32,12 +36,18 @@ class MovieSearchBloc extends Bloc<MovieSearchEvent, MovieSearchState> {
       final movies = await _omdbService.searchMovies(query);
 
       if (movies.isNotEmpty) {
-        emit(MovieSearchSuccess(movies: movies, query: query));
+        final successState = MovieSearchSuccess(movies: movies, query: query);
+        emit(successState);
+        _lastSearchState = successState; 
       } else {
-        emit(MovieSearchEmpty(query));
+        final emptyState = MovieSearchEmpty(query);
+        emit(emptyState);
+        _lastSearchState = emptyState;
       }
     } catch (e) {
-      emit(MovieSearchError('Failed to search movies: $e'));
+      final errorState = MovieSearchError('Failed to search movies: $e');
+      emit(errorState);
+      _lastSearchState = errorState;
     }
   }
 
