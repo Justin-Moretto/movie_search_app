@@ -1,16 +1,25 @@
-# movie_search_app
+# Movie Search App
 
-A new Flutter project.
+A Flutter app that lets you search for movies and view detailed info using the OMDb API.
 
-## Getting Started
+## What it does
 
-This project is a starting point for a Flutter application.
+- Search for movies by title
+- View detailed movie info (plot, cast, ratings, etc.)
+- Clean, modern UI
+- Search results stick around when you navigate back
 
-A few resources to get you started if this is your first Flutter project:
+## Architecture
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Built with **BLoC pattern** for state management. Clean separation between:
+- **Models**: Movie data structures
+- **Services**: API calls to OMDb
+- **BLoC**: Business logic and state
+- **UI**: Screens and widgets
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech stack
+
+- Flutter + BLoC
+- OMDb API
+- HTTP for API calls
+- Environment variables for API key
