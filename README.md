@@ -7,7 +7,6 @@ A Flutter app that lets you search for movies and view detailed info using the O
 - Search for movies by title
 - View detailed movie info (plot, cast, ratings, etc.)
 - Clean, modern UI
-- Search results stick around when you navigate back
 
 ## Architecture
 
